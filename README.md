@@ -97,6 +97,21 @@ The SetupEnvironment Script sets serveral Variables for the Erlang and RabbitMQ 
 
 During Deplopment phase of the Package the package 
 
+Deploy a Package
+
+<code>
+   Connect-ServiceFabricCluster -ConnectionEndpoint localhost:19000
+   
+   $parameters = @{ ENVIRONMENT="Stage";ClusterInstall="false";InstanceCount="-1";ErlangCockie="ErlangCookie" }
+   
+   Copy-ServiceFabricApplicationPackage -ApplicationPackagePath Debug\ -ApplicatinPackagePathInImageStore Arvato.Infrastructure.RabittMQ
+   Register-ServiceFabricApplicationType -ApplicatinPackagePathInImageStore Arvato.Infrastructure.RabittMQ
+   New-ServiceFabricApplication -Application fabric:/Stage/Arvato.Infrastructure.RabittMQ `
+                                -ApplicationTypeName Arvato.Infrastructure.RabittMQ `
+                                -ApplicationTypeVersion 3.7.9 `
+                                -ApplicationParameter $parameters
+</code>
+
 
 # Distribute the Application Package 
 
