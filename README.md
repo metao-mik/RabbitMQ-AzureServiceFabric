@@ -7,8 +7,9 @@ It's als includes a documantation of how the package was created.
 Using RabbitMQ as an Message Queuing Event Bus in a OnPremise Environment has serveral advantages.
 Our Environment is restricted to be OnPremise. But the Software should be created Cloud-Ready. 
 
+## Preq... and Preparation 
 
-## Perapare the Example Environment 
+### Perapare the Example Environment 
 Before creating the Application Package an Example Virtual Maschine has been prepared with an Example installation of RabbitMQ.
 
 1) Create Windows Server 2016 Virtual Maschine A.
@@ -23,4 +24,62 @@ Before creating the Application Package an Example Virtual Maschine has been pre
    - Send Message zu Exchange, 
    - Read Message vom Queue
    
+### Azure Service Fabric SDK 
+Install the Azure Service SDK.  
+
+### Perpare Folder Structure 
+Create as Folder C:\Samples\RabbitMQ-AzSF-image\Code
+Create an Empty TextFile as .bat "start_RabbitMQ" in C:\Samples\RabbitMQ-AzSF-image\Code
+
+
 ## Creating the Azure Service Appliaction Package 
+The Application Server Package i been Build by Microsoft Visual Studio 2017 
+
+### Create Visual Studio Application Pakage Project 
+<<image of visual Studio, net Service Fabric Application>>
+
+The Template "Ausführbare Gastdate" is selected. 
+- Codepaket-Folder: "C:\samples\RabbiteMQ..\code
+- Programm: start_rabbitMQ.bat
+- ProjectName RabbitMQService
+
+<<image of Template Properties>>
+   
+### Copy the Erlang and RabbitMQ files to the Code-folder 
+
+#### Erlang Files 
+The installation of Erlang created a Erl10.1 Folder under Programm-Files. 
+Copy the Files to the "\code\Erl" Directory Previous Prepared.  
+
+(Caution: Copy these Files from an Installed instance of erlang, the Files/folder-Structure in the installation Zip/Exe differ from the installed ones)  
+
+#### RabbitMQ Files 
+
+RabbitMQ 3.7.9
+Copy the files of the RabittMQ installation to /code/rabbitMQ_Service 
+
+
+### Configure Erlang and RabbitMQ Environment 
+During the installation Process of the Azure Service Fabirc Application Package on a Node. 
+server Instance-folder are created in the Data-Fodler of the Fabric. 
+/Fabric/work/applications/<Application Package Name>_<"App" +Installation_instance> 
+   
+The content files are copied there. 
+To start the rabbitMQ Service the Applicaton needs to be configured on these Folders. 
+Therefore a PowerShell Script "SetupEnvironment.ps1" is created in "/?"
+
+<code> 
+Start-Transscript .\rabbitemq-setup-environment.log
+
+Write-Host "Envoronment variables" 
+
+</code>
+
+
+
+<b>Erl.ini</b>
+
+
+### Powershell Script to Deploy-Package on a Node 
+
+During Deplopment phase of the Package the package 
