@@ -95,9 +95,9 @@ The SetupEnvironment Script sets serveral Variables for the Erlang and RabbitMQ 
 
 ### Powershell Script to Deploy-Package on a Node 
 
-During Deplopment phase of the Package the package 
+During Deplopment phase of the Package the package deploy-manuel.ps1
 
-Deploy a Package
+Register and Start a Package via PowerShell 
 
 <code>
    Connect-ServiceFabricCluster -ConnectionEndpoint localhost:19000
@@ -106,12 +106,22 @@ Deploy a Package
    
    Copy-ServiceFabricApplicationPackage -ApplicationPackagePath Debug\ -ApplicatinPackagePathInImageStore Arvato.Infrastructure.RabittMQ
    Register-ServiceFabricApplicationType -ApplicatinPackagePathInImageStore Arvato.Infrastructure.RabittMQ
-   New-ServiceFabricApplication -Application fabric:/Stage/Arvato.Infrastructure.RabittMQ `
-                                -ApplicationTypeName Arvato.Infrastructure.RabittMQ `
-                                -ApplicationTypeVersion 3.7.9 `
+   New-ServiceFabricApplication -ApplicationName fabric:/Stage/Arvato.Infrastructure.RabittMQ '
+                                -ApplicationTypeName Arvato.Infrastructure.RabittMQ '
+                                -ApplicationTypeVersion 3.7.9 '
                                 -ApplicationParameter $parameters
 </code>
 
+Unregister and Delete Application Pakage from Service Fabric Node 
+
+<code>
+   Remove-ServiceFabricApplicationPackage -ApplicatinPackagePathInImageStore Arvato.Infrastructure.RabittMQ
+
+   Remove-ServiceFabricApplication -ApplicationName fabric:/Stage/Arvato.Infrastructure.RabittMQ -Force 
+
+   Unregister-ServiceFabricApplicationType -ApplicationTypeName Arvato.Infrastructure.RabittMQ 
+                                           -ApplicationTypeVersion 3.7.9 -Force
+</code>
 
 # Distribute the Application Package 
 
