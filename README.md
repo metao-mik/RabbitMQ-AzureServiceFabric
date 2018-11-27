@@ -1,3 +1,5 @@
+
+
 # RabbitMQ-AzureServiceFabric
 
 This repository contains a Azure Service Fabric Applikation Package for a RabbitMQ Cluster.
@@ -27,9 +29,12 @@ Before creating the Application Package an Example Virtual Maschine has been pre
 ### Azure Service Fabric SDK 
 Install the Azure Service SDK.  
 
+### Microft Visual C++ Redistributable (x64) 
+Erlang needs the The C++ Redistributable (x64). On Windows 10 and Windows Server 2016 it should already existing. Otherwise it needs to be installed.
+
 ### Perpare Folder Structure 
 Create as Folder C:\Samples\RabbitMQ-AzSF-image\Code
-Create an Empty TextFile as .bat "start_RabbitMQ" in C:\Samples\RabbitMQ-AzSF-image\Code
+Create an Empty TextFile/Batchfile "start_RabbitMQ.bat" in C:\Samples\RabbitMQ-AzSF-image\Code
 
 
 ## Creating the Azure Service Appliaction Package 
@@ -68,11 +73,19 @@ The content files are copied there.
 To start the rabbitMQ Service the Applicaton needs to be configured on these Folders. 
 Therefore a PowerShell Script "SetupEnvironment.ps1" is created in "/?"
 
+PowerShell Scripts can't be executed directly from the AzureServiceFabric als StartUp-Objects
+the prepared Batchfile is calling out PowerShell Script.
+
+<code>
+   powershell.exe -ExecutionPolicy Bypass -Command ".\SetupEnvironment.ps1"
+</code>
+
+The SetupEnvironment Script sets serveral Variables for the Erlang and RabbitMQ Runtime
+
 <code> 
-Start-Transscript .\rabbitemq-setup-environment.log
+   Start-Transscript .\rabbitemq-setup-environment.log
 
-Write-Host "Envoronment variables" 
-
+   Write-Host "Envoronment variables" 
 </code>
 
 
@@ -83,3 +96,14 @@ Write-Host "Envoronment variables"
 ### Powershell Script to Deploy-Package on a Node 
 
 During Deplopment phase of the Package the package 
+
+
+# Distribute the Application Package 
+
+The Application Package can be packed and published by nuget.
+
+https://github.com/Azure/SFNuGet
+
+
+
+# Deploy Application Package on a Development Maschine
